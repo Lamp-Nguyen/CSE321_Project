@@ -12,8 +12,18 @@ public class YahtzeeMain {
 	// 2 twos and 1 three, the count list will be [2, 2, 1, 0, 0, 0]
 	private ArrayList<Integer> count;
 	
+	// Score array for lower section
+	private int[] scoreTable = {-1, -1, -1, -1, -1, -1 
+			, -1, -1, -1, -1, -1, -1, -1};
+	
 	// Count for Yahtzee bonus
 	private int yahtzeeCount = 0;
+	
+	// Number of rerolls remaining
+	private int numRolls = 0;
+	
+	// Current number of rounds
+	private int numRounds = 0;
 	
 	//------------------------------------- Methods
 	
@@ -33,17 +43,17 @@ public class YahtzeeMain {
 		updateCount();
 	}
 	
-	/**
-	 * Reroll all dies, updateCount is called to update the count ArrayList to match
-	 * the current turn
-	 */
-	public void reroll() {
-		for (int i = 1; i <= 5; i++) {
-			String idx = i + "";
-			dies.get(idx).roll();
-		}
-		updateCount();
-	}
+//	/**
+//	 * Reroll all dies, updateCount is called to update the count ArrayList to match
+//	 * the current turn
+//	 */
+//	public void reroll() {
+//		for (int i = 1; i <= 5; i++) {
+//			String idx = i + "";
+//			dies.get(idx).roll();
+//		}
+//		updateCount();
+//	}
 	
 	/**
 	 * Reroll specific dies, updateCount is called to update the count ArrayList to match
@@ -51,12 +61,18 @@ public class YahtzeeMain {
 	 * @param dieNumbers the dies the players want to reroll, represented as
 	 * 	a string of integers seperated by spaces
 	 */
-	public void reroll(String dieNumbers) {
-		String[] diesToReroll = dieNumbers.trim().split(" ");
-		for (String str : diesToReroll) {
-			dies.get(str).roll();
+	public boolean reroll(String dieNumbers) {
+		if (++numRolls < 4) {
+			String[] diesToReroll = dieNumbers.trim().split(" ");
+			for (String str : diesToReroll) {
+				dies.get(str).roll();
+			}
+			updateCount();
+			return true;
+		} else {
+			System.out.println("Max no of rerolls reach");
+			return false;
 		}
-		updateCount();
 	}
 	
 	/**
@@ -171,14 +187,24 @@ public class YahtzeeMain {
 	 */
 	public int getYahtzee() {
 		if (count.contains(5)) {
-			yahtzeeCount++;
 			return 50;
 		}
 		return 0;
 	}
 	
-	//Debug method for printing the count arraylist
-	public String getCount() {
-		return count.toString();
+	public boolean storeScore(int index, int score) {
+		if (scoreTable[index] != -1) {
+			return false;
+		}
+		scoreTable[index] = score;
+		return true;
+	}
+	
+	public int totalScore() {
+		int ret = 0;
+		for (int i : scoreTable) {
+			ret += i;
+		}
+		return ret;
 	}
 }

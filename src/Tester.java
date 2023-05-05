@@ -5,7 +5,7 @@ public class Tester {
 	public static void main(String[] args) {
 		
 		Scanner sc = new Scanner(System.in);
-		String input;
+		int input;
 		int noRerolls = 0;
 		YahtzeeMain test = new YahtzeeMain();
 		
@@ -14,39 +14,17 @@ public class Tester {
 			System.out.println("Round no: " + (i + 1));
 			System.out.println("-----------------------------");
 			// while the user still has rerolls
-			while (noRerolls < 3) {
 				
-				System.out.println(test.getDies());
-				testUpperSection(test);
-				System.out.println("-----------------------------");
-				testLowerSection(test);
-				System.out.println("-----------------------------");
-				
-				// if the user hasn't rerolled 2 times
-				if (noRerolls < 2) {
-					System.out.println("Enter the dies you want to reroll or enter your score: ");
-					input = sc.nextLine().trim();
-					// if the user keeps a score
-					if (input.equals("score")) {
-						noRerolls = 0;
-						test.reroll();
-						break;
-					// if the user enters a string of dies to reroll
-					} else if (input != ""){
-						noRerolls++;
-						test.reroll(input);
-					// if the user enters nothing
-					} else {
-						noRerolls++;
-						test.reroll();
-					}
-				// if the user used all their rerolls
-				} else {
-					noRerolls++;
-					System.out.println("You've run out of rolls, enter your score");
-					input = sc.nextLine().trim();
-				}
-			}
+			System.out.println(test.getDies());
+			testUpperSection(test);
+			System.out.println("-----------------------------");
+			testLowerSection(test);
+			System.out.println("-----------------------------");
+			
+			// if the user hasn't rerolled 2 times
+			System.out.println("Enter the score you want to save: ");
+			input = sc.nextInt();
+			// if the user keeps a score
 			
 			noRerolls = 0;
 			System.out.println("-----------------------------");
@@ -70,7 +48,6 @@ public class Tester {
 		System.out.println("Large Straight: " + y.getLargeStraight());
 		System.out.println("Chance: " + y.getRollSum());
 		System.out.println("Yahtzee: " + y.getYahtzee());
-		System.out.println("Die counts: " + y.getCount());
 	}
 	
 }
