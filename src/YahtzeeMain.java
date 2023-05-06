@@ -4,23 +4,26 @@ import java.util.Scanner;
 public class YahtzeeMain {
 
 	//------------------------------------- Instance variables
-	boolean debug = true;
+	// Set to true if you are debugging with specific Die values
+	boolean debug = false;
 	
-	// Hashmap to store the dies in <String, Die> pairs (Ex: <"1", Die>, <"2", Die>)
-	//private HashMap<Integer, Die> dies;
+	// Array of Die objects
 	private Die[] dies;
 	
 	// ArrayList to store the count of the dies of value n (Ex: If the user roll 2 aces,
 	// 2 twos and 1 three, the count list will be [2, 2, 1, 0, 0, 0]
 	private ArrayList<Integer> count;
 	
-	// Score array for lower section
+	// Array for storing scores, index from (0 -> 6) are for Aces -> Sixes
+	// 7: 3 of a kind, 8: 4 of a kind, 9: full house, 10: small straight, 11: large straight
+	// 12: yahtzee
 	private int[] scoreTable = {-1, -1, -1, -1, -1, -1 
 			, -1, -1, -1, -1, -1, -1, -1};
 	
 	// Number of rerolls remaining
 	private int numRolls = 0;
 	
+	// Number of yahtzees
 	private int yahtzeeCount = 0;
 	
 	//------------------------------------- Methods
@@ -41,27 +44,16 @@ public class YahtzeeMain {
 		updateCount();
 	}
 	
-//	/**
-//	 * Reroll all dies, updateCount is called to update the count ArrayList to match
-//	 * the current turn
-//	 */
-//	public void reroll() {
-//		for (int i = 1; i <= 5; i++) {
-//			String idx = i + "";
-//			dies.get(idx).roll();
-//		}
-//		updateCount();
-//	}
-	
 	/**
-	 * Reroll specific dies, updateCount is called to update the count ArrayList to match
-	 * the current turn
-	 * @param dieNumbers the dies the players want to reroll, represented as
-	 * 	a string of integers seperated by spaces
+	 * Roll the Dies specified by an array of size 5, consisting of 0s and 1s
+	 * (Ex: [1, 1, 0, 0, 0] will re-roll the dies 1 and 2)
+	 * @param diesToReroll
+	 * @return true if the can be re-rolled (i.e  numRolls <= 3), false otherwise
 	 */
 	public boolean reroll(int[] diesToReroll) {
 		if (++numRolls < 4) {
 			
+			// If in debug mode
 			if (debug) {
 				return debugRoll();
 			}
@@ -78,6 +70,11 @@ public class YahtzeeMain {
 		}
 	}
 	
+	/**
+	 * Use when debug is set to true, allow the tester to specify the specific die values
+	 * they want to test
+	 * @return true
+	 */
 	private boolean debugRoll() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter test values as one string seperated by spaces: ");
@@ -148,6 +145,10 @@ public class YahtzeeMain {
 		return ret;
 	}
 	
+	/**
+	 * Check if the player qualifies for a bonus for the upper section
+	 * @return true if the total upper section score is >= 63, false otherwise
+	 */
 	public boolean hasBonus() {
 		int bonusReq = 0;
 		for (int i = 0; i < 6; i++) {
@@ -230,15 +231,31 @@ public class YahtzeeMain {
 		}
 	}
 	
+	/**
+	 * Get the score at a specified index
+	 * @param index the index to retrieve
+	 * @return the score at the index
+	 */
 	public int getScore(int index) {
 		return scoreTable[index];
 	}
 	
+	/**
+	 * Store the score at its matching index
+	 * @param index the index to store the score
+	 * @param score
+	 */
 	public void storeScore(int index, int score) {
 		numRolls = 0;
 		scoreTable[index] = score;
 	}
 	
+	/**
+	 * Check if the score category at the specified index has already
+	 * been filled out
+	 * @param index the index to check
+	 * @return true if the score is already filled, false otherwise
+	 */
 	public boolean isScoreFilled(int index) {
 		if (scoreTable[index] == -1) {
 			return false;
@@ -246,6 +263,10 @@ public class YahtzeeMain {
 		return true;
 	}
 	
+	/**
+	 * Return the total score
+	 * @return the total score
+	 */
 	public int totalScore() {
 		int ret = 0;
 		for (int i : scoreTable) {

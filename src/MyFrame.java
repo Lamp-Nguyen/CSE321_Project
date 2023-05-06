@@ -23,19 +23,39 @@ import javax.swing.JOptionPane;
 public class MyFrame extends JFrame implements ActionListener {
 
 	// Global variables
+	
+	// Buttons
 	private JButton button0, button1, button2, button3, button4, button5, button6, button7, button8,
 		button9, button10, button11, button12, roll;
+	
+	// Textfields
 	private JTextField field0, field1, field2, field3, field4, field5, fieldBonus, field6, field7, field8, field9,
 	 	field10, field11, field12, field13, field14, field15, field16, field17, 
 	 	rollsRemaining, rounds, totalScore;
+	
+	// Checkboxes
 	private JCheckBox check1, check2, check3, check4, check5, checkBonus;
+	
 	private JPanel lowerSection, upperSection;
 	private JMenuItem exit;
+	
+	// Array of textfields to simulate the score table
+	// [0 : aces, 1: twos, ..., 6: 3 of a kind, 7: 4 of a kind, ...]
 	private JTextField[] scoreTable;
+	
+	// Array of 0s and 1s to specify which Die to keep and which to reroll
 	private int[] diesToReroll = new int[5];
+	
+	// The number of rounds
 	private int noRounds = 1;
+	
+	// The number rerolls remaining
 	private int rollsLeft = 2;
+	
+	// The main logic for the game
 	private YahtzeeMain game = new YahtzeeMain();
+	
+	// Font for selected and unselected score
 	private Font selected;
 	private Font unselected;
 	
@@ -393,8 +413,8 @@ public class MyFrame extends JFrame implements ActionListener {
 			if (game.reroll(diesToReroll)) {
 				appendDieValue();
 				rollsRemaining.setText("Rolls left:   " + rollsLeft--);
-				appendLowerScore();
 				appendUpperScore();
+				appendLowerScore();
 			} else {
 				JOptionPane.showMessageDialog(new JFrame(), "Max number of rolls reached");
 			}
@@ -427,6 +447,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Check which Die is checked to be kept and update the diesToReroll
+	 * array accordingly
+	 */
 	private void isChecked() {
 		if (check1.isSelected()) {
 			diesToReroll[0] = 0;
@@ -459,6 +483,9 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Display the value for each die
+	 */
 	private void appendDieValue() {
 		field13.setText(game.getDieValue(0));
 		field14.setText(game.getDieValue(1));
@@ -467,7 +494,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		field17.setText(game.getDieValue(4));
 	}
 	
-	private void appendLowerScore() {
+	/**
+	 * Display the scoring options for the upper section
+	 */
+	private void appendUpperScore() {
 		for (int i = 0; i < 6; i++) {
 			JPanel temp = (JPanel) lowerSection.getComponent(i);
 			JTextField fieldToAppend = (JTextField) temp.getComponent(1);
@@ -479,7 +509,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
-	private void appendUpperScore() {
+	/**
+	 * Driver for displaying the scoring options for the lower section
+	 */
+	private void appendLowerScore() {
 		appendThreesOKind();
 		appendFoursOKind();
 		appendFullHouse();
@@ -489,6 +522,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		appendChance();
 	}
 	
+	/**
+	 * Display the scoring option for 3 of a kind, if the section is already
+	 * filled, retrieve the stored score from the score array in the game
+	 */
 	private void appendThreesOKind() {
 		if (!game.isScoreFilled(6)) {
 			field6.setText(Integer.toString(game.getSameDie()));
@@ -497,6 +534,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Display the scoring option for 4 of a kind, if the section is already
+	 * filled, retrieve the stored score from the score array in the game
+	 */
 	private void appendFoursOKind() {
 		if (!game.isScoreFilled(7)) {
 			field7.setText(Integer.toString(game.getSameDie()));
@@ -505,6 +546,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Display the scoring option for full house, if the section is already
+	 * filled, retrieve the stored score from the score array in the game
+	 */
 	private void appendFullHouse() {
 		if (!game.isScoreFilled(8)) {
 			field8.setText(Integer.toString(game.getFullHouse()));
@@ -513,6 +558,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Display the scoring option for small straight, if the section is already
+	 * filled, retrieve the stored score from the score array in the game
+	 */
 	private void appendSmallStraight() {
 		if (!game.isScoreFilled(9)) {
 			field9.setText(Integer.toString(game.getSmallStraight()));
@@ -521,6 +570,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Display the scoring option for large straight, if the section is already
+	 * filled, retrieve the stored score from the score array in the game
+	 */
 	private void appendLargeStraight() {
 		if (!game.isScoreFilled(10)) {
 			field10.setText(Integer.toString(game.getLargeStraight()));
@@ -529,10 +582,18 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Display the scoring option for Yahtzee, if the section is already
+	 * filled, retrieve the stored score from the score array in the game
+	 */
 	private void appendYahtzee() {
 		field11.setText(Integer.toString(game.getYahtzee()));
 	}
 	
+	/**
+	 * Display the scoring option for Chance, if the section is already
+	 * filled, retrieve the stored score from the score array in the game
+	 */
 	private void appendChance() {
 		if (!game.isScoreFilled(12)) {
 			field12.setText(Integer.toString(game.getRollSum()));
@@ -541,6 +602,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Store the score for aces in the game's score array. If the section is already
+	 * filled, inform the user.
+	 */
 	private void setAces() {
 		if (game.isScoreFilled(0)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
@@ -551,6 +616,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Store the score for twos in the game's score array. If the section is already
+	 * filled, inform the user.
+	 */
 	private void setTwos() {
 		if (game.isScoreFilled(1)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
@@ -561,6 +630,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Store the score for threes in the game's score array. If the section is already
+	 * filled, inform the user.
+	 */
 	private void setThrees() {
 		if (game.isScoreFilled(2)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
@@ -571,6 +644,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Store the score for fours in the game's score array. If the section is already
+	 * filled, inform the user.
+	 */
 	private void setFours() {
 		if (game.isScoreFilled(3)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
@@ -581,6 +658,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Store the score for fives in the game's score array. If the section is already
+	 * filled, inform the user.
+	 */
 	private void setFives() {
 		if (game.isScoreFilled(4)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
@@ -591,6 +672,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Store the score for sixes in the game's score array. If the section is already
+	 * filled, inform the user.
+	 */
 	private void setSixes() {
 		if (game.isScoreFilled(5)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
@@ -601,6 +686,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Store the score for 3 of a kind in the game's score array. If the section is already
+	 * filled, inform the user.
+	 */
 	private void setThreeOKind() {
 		if (game.isScoreFilled(6)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
@@ -611,6 +700,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Store the score for 4 of a kind in the game's score array. If the section is already
+	 * filled, inform the user.
+	 */
 	private void setFourOKind() {
 		if (game.isScoreFilled(7)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
@@ -621,6 +714,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Store the score for full house in the game's score array. If the section is already
+	 * filled, inform the user.
+	 */
 	private void setFullHouse() {
 		if (game.isScoreFilled(8)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
@@ -631,6 +728,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Store the score for small straight in the game's score array. If the section is already
+	 * filled, inform the user.
+	 */
 	private void setSmallStraight() {
 		if (game.isScoreFilled(9)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
@@ -641,6 +742,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Store the score for large straight in the game's score array. If the section is already
+	 * filled, inform the user.
+	 */
 	private void setLargeStraight() {
 		if (game.isScoreFilled(10)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
@@ -651,6 +756,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Store the score for Yahtzee in the game's score array. If the section is already
+	 * filled, inform the user.
+	 */
 	private void setYahtzee() {
 		if (game.isScoreFilled(11)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
@@ -661,6 +770,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Store the score for Chance in the game's score array. If the section is already
+	 * filled, inform the user.
+	 */
 	private void setChance() {
 		if (game.isScoreFilled(12)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
@@ -671,6 +784,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Start a new round, if the number of rounds reached 13, run newGame() instead
+	 * Reset the text fields and update the output field
+	 */
 	private void newRound() {
 		
 		if (game.hasBonus()) {
@@ -707,6 +824,10 @@ public class MyFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Prompt the user if they want to start a new game. If selected YES, start a new instance
+	 * of the game. If selected NO, terminate the program
+	 */
 	private void newGame() {
 		rounds.setText("Round:  " + noRounds);
 		totalScore.setText("Score:  " + game.totalScore());
