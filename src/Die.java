@@ -13,4 +13,9 @@ public class Die {
 	public int getValue() {
 		return this.value;
 	}
+	
+	// Use for testing
+	public void setValue(int value) {
+		this.value = value;
+	}
 }

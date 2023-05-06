@@ -18,19 +18,34 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.JOptionPane;
 
 public class MyFrame extends JFrame implements ActionListener {
 
 	// Global variables
-	JMenuItem exit;
+	private JButton button0, button1, button2, button3, button4, button5, button6, button7, button8,
+		button9, button10, button11, button12, roll;
+	private JTextField field0, field1, field2, field3, field4, field5, fieldBonus, field6, field7, field8, field9,
+	 	field10, field11, field12, field13, field14, field15, field16, field17, 
+	 	rollsRemaining, rounds, totalScore;
+	private JCheckBox check1, check2, check3, check4, check5, checkBonus;
+	private JPanel lowerSection, upperSection;
+	private JMenuItem exit;
+	private JTextField[] scoreTable;
+	private int[] diesToReroll = new int[5];
+	private int noRounds = 1;
+	private int rollsLeft = 2;
+	private YahtzeeMain game = new YahtzeeMain();
+	private Font selected;
+	private Font unselected;
 	
-	MyFrame() {
+	public MyFrame() {
 		// Initializing frame
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(new GridLayout(2, 1));
 		this.setTitle("Yahtzee Game");
 		this.setResizable(false);
-		this.setSize(420, 500);
+		this.setSize(550, 500);
 		this.getContentPane().setBackground(Color.WHITE);
 		
 		// Initializing menu bar
@@ -52,163 +67,228 @@ public class MyFrame extends JFrame implements ActionListener {
 		topPanel.setLayout(new GridLayout(1, 3));
 		
 		// Initializing lower section panel: left-most panel within top panel
-		JPanel lowerSection = new JPanel();
+		lowerSection = new JPanel();
 		lowerSection.setBorder(BorderFactory.createEtchedBorder());
-		lowerSection.setLayout(new GridLayout(6, 1));
+		lowerSection.setLayout(new GridLayout(7, 1));
+		
 		JPanel group1 = new JPanel();
 		group1.setBorder(BorderFactory.createLoweredBevelBorder());
-		JButton button1 = new JButton("1");
-		JTextField field1 = new JTextField("     ");
-		field1.setEditable(false);
-		group1.add(button1);
-		group1.add(field1);
+		button0 = new JButton("Aces");
+		button0.addActionListener(this);
+		field0 = new JTextField("     ");
+		field0.setEditable(false);
+		group1.add(button0);
+		group1.add(field0);
+		
 		JPanel group2 = new JPanel();
 		group2.setBorder(BorderFactory.createLoweredBevelBorder());
-		JButton button2 = new JButton("2");
-		JTextField field2 = new JTextField("     ");
-		field2.setEditable(false);
-		group2.add(button2);
-		group2.add(field2);
+		button1 = new JButton("Twos");
+		button1.addActionListener(this);
+		field1 = new JTextField("     ");
+		field1.setEditable(false);
+		group2.add(button1);
+		group2.add(field1);
+		
 		JPanel group3 = new JPanel();
 		group3.setBorder(BorderFactory.createLoweredBevelBorder());
-		JButton button3 = new JButton("3");
-		JTextField field3 = new JTextField("     ");
-		field3.setEditable(false);
-		group3.add(button3);
-		group3.add(field3);
+		button2 = new JButton("Threes");
+		button2.addActionListener(this);
+		field2 = new JTextField("     ");
+		field2.setEditable(false);
+		group3.add(button2);
+		group3.add(field2);
+		
 		JPanel group4 = new JPanel();
 		group4.setBorder(BorderFactory.createLoweredBevelBorder());
-		JButton button4 = new JButton("4");
-		JTextField field4 = new JTextField("     ");
-		field4.setEditable(false);
-		group4.add(button4);
-		group4.add(field4);
+		button3 = new JButton("Fours");
+		button3.addActionListener(this);
+		field3 = new JTextField("     ");
+		field3.setEditable(false);
+		group4.add(button3);
+		group4.add(field3);
+		
 		JPanel group5 = new JPanel();
 		group5.setBorder(BorderFactory.createLoweredBevelBorder());
-		JButton button5 = new JButton("5");
-		JTextField field5 = new JTextField("     ");
-		field5.setEditable(false);
-		group5.add(button5);
-		group5.add(field5);
+		button4 = new JButton("Fives");
+		button4.addActionListener(this);
+		field4 = new JTextField("     ");
+		field4.setEditable(false);
+		group5.add(button4);
+		group5.add(field4);
+		
 		JPanel group6 = new JPanel();
 		group6.setBorder(BorderFactory.createLoweredBevelBorder());
-		JButton button6 = new JButton("6");
-		JTextField field6 = new JTextField("     ");
-		field6.setEditable(false);
-		group6.add(button6);
-		group6.add(field6);
+		button5 = new JButton("Sixes");
+		button5.addActionListener(this);
+		field5 = new JTextField("     ");
+		field5.setEditable(false);
+		group6.add(button5);
+		group6.add(field5);
+		
+		JPanel groupBonus = new JPanel();
+		groupBonus.setBorder(BorderFactory.createLoweredBevelBorder());
+		checkBonus = new JCheckBox();
+		checkBonus.setEnabled(false);
+		JLabel bonus = new JLabel("Bonus: ");
+		fieldBonus = new JTextField("     ");
+		fieldBonus.setEditable(false);
+		groupBonus.add(checkBonus);
+		groupBonus.add(bonus);
+		groupBonus.add(fieldBonus);
+		
 		lowerSection.add(group1);
 		lowerSection.add(group2);
 		lowerSection.add(group3);
 		lowerSection.add(group4);
 		lowerSection.add(group5);
 		lowerSection.add(group6);
+		lowerSection.add(groupBonus);
 
 		// Initializing upper section panel: middle panel within top panel
-		JPanel upperSection = new JPanel();
+		upperSection = new JPanel();
 		upperSection.setBorder(BorderFactory.createEtchedBorder());
-		upperSection.setLayout(new GridLayout(6, 1));
+		upperSection.setLayout(new GridLayout(7, 1));
+		
 		JPanel group7 = new JPanel();
 		group7.setBorder(BorderFactory.createLoweredBevelBorder());
-		JButton button7 = new JButton("1");
-		JTextField field7 = new JTextField("     ");
-		field7.setEditable(false);
-		group7.add(button7);
-		group7.add(field7);
+		button6 = new JButton("3 of a kind");
+		button6.addActionListener(this);
+		field6 = new JTextField("     ");
+		field6.setEditable(false);
+		group7.add(button6);
+		group7.add(field6);
+		
 		JPanel group8 = new JPanel();
 		group8.setBorder(BorderFactory.createLoweredBevelBorder());
-		JButton button8 = new JButton("2");
-		JTextField field8 = new JTextField("     ");
-		field8.setEditable(false);
-		group8.add(button8);
-		group8.add(field8);
+		button7 = new JButton("4 of a kind");
+		button7.addActionListener(this);
+		field7 = new JTextField("     ");
+		field7.setEditable(false);
+		group8.add(button7);
+		group8.add(field7);
+		
 		JPanel group9 = new JPanel();
 		group9.setBorder(BorderFactory.createLoweredBevelBorder());
-		JButton button9 = new JButton("3");
-		JTextField field9 = new JTextField("     ");
-		field9.setEditable(false);
-		group9.add(button9);
-		group9.add(field9);
+		button8 = new JButton("Full house");
+		button8.addActionListener(this);
+		field8 = new JTextField("     ");
+		field8.setEditable(false);
+		group9.add(button8);
+		group9.add(field8);
+		
 		JPanel group10 = new JPanel();
 		group10.setBorder(BorderFactory.createLoweredBevelBorder());
-		JButton button10 = new JButton("4");
-		JTextField field10 = new JTextField("     ");
-		field10.setEditable(false);
-		group10.add(button10);
-		group10.add(field10);
+		button9 = new JButton("Small straight");
+		button9.addActionListener(this);
+		field9 = new JTextField("     ");
+		field9.setEditable(false);
+		group10.add(button9);
+		group10.add(field9);
+		
 		JPanel group11 = new JPanel();
 		group11.setBorder(BorderFactory.createLoweredBevelBorder());
-		JButton button11 = new JButton("5");
-		JTextField field11 = new JTextField("     ");
-		field11.setEditable(false);
-		group11.add(button11);
-		group11.add(field11);
+		button10 = new JButton("Large straight");
+		button10.addActionListener(this);
+		field10 = new JTextField("     ");
+		field10.setEditable(false);
+		group11.add(button10);
+		group11.add(field10);
+		
 		JPanel group12 = new JPanel();
 		group12.setBorder(BorderFactory.createLoweredBevelBorder());
-		JButton button12 = new JButton("6");
-		JTextField field12 = new JTextField("     ");
+		button11 = new JButton("Yahtzee");
+		button11.addActionListener(this);
+		field11 = new JTextField("         ");
+		field11.setEditable(false);
+		group12.add(button11);
+		group12.add(field11);
+		
+		JPanel groupChance = new JPanel();
+		groupChance.setBorder(BorderFactory.createLoweredBevelBorder());
+		button12 = new JButton("Chance");
+		button12.addActionListener(this);
+		field12 = new JTextField("     ");
 		field12.setEditable(false);
-		group12.add(button12);
-		group12.add(field12);
+		groupChance.add(button12);
+		groupChance.add(field12);
+		
 		upperSection.add(group7);
 		upperSection.add(group8);
 		upperSection.add(group9);
 		upperSection.add(group10);
 		upperSection.add(group11);
 		upperSection.add(group12);
+		upperSection.add(groupChance);
+		
+		scoreTable = new JTextField[] {field0, field1, field2, field3, field4, field5, field6, field7,
+				field8, field9, field10, field11, field12};
+		selected = new Font(field0.getFont().getName(), Font.BOLD , field0.getFont().getSize());
+		unselected = new Font(field0.getFont().getName(), Font.PLAIN , field0.getFont().getSize());
 		
 		// Initializing die panel: right-most panel within top panel
 		JPanel diePanel = new JPanel();
 		diePanel.setBorder(BorderFactory.createEtchedBorder());
 		diePanel.setLayout(new GridLayout(6, 1));
+		
 		JPanel group13 = new JPanel();
 		group13.setBorder(BorderFactory.createLoweredBevelBorder());
-		JCheckBox check1 = new JCheckBox();
+		check1 = new JCheckBox();
+		check1.addActionListener(this);
 		JLabel label1 = new JLabel("Die 1");
-		JTextField field13 = new JTextField("     ");
+		field13 = new JTextField("     ");
 		field13.setEditable(false);
 		group13.add(check1);
 		group13.add(label1);
 		group13.add(field13);
+		
 		JPanel group14 = new JPanel();
 		group14.setBorder(BorderFactory.createLoweredBevelBorder());
-		JCheckBox check2 = new JCheckBox();
+		check2 = new JCheckBox();
 		JLabel label2 = new JLabel("Die 2");
-		JTextField field14 = new JTextField("     ");
+		check2.addActionListener(this);
+		field14 = new JTextField("     ");
 		field14.setEditable(false);
 		group14.add(check2);
 		group14.add(label2);
 		group14.add(field14);
+		
 		JPanel group15 = new JPanel();
 		group15.setBorder(BorderFactory.createLoweredBevelBorder());
-		JCheckBox check3 = new JCheckBox();
+		check3 = new JCheckBox();
+		check3.addActionListener(this);
 		JLabel label3 = new JLabel("Die 3");
-		JTextField field15 = new JTextField("     ");
+		field15 = new JTextField("     ");
 		field15.setEditable(false);
 		group15.add(check3);
 		group15.add(label3);
 		group15.add(field15);
+		
 		JPanel group16 = new JPanel();
 		group16.setBorder(BorderFactory.createLoweredBevelBorder());
-		JCheckBox check4 = new JCheckBox();
+		check4 = new JCheckBox();
+		check4.addActionListener(this);
 		JLabel label4 = new JLabel("Die 4");
-		JTextField field16 = new JTextField("     ");
+		field16 = new JTextField("     ");
 		field16.setEditable(false);
 		group16.add(check4);
 		group16.add(label4);
 		group16.add(field16);
+		
 		JPanel group17 = new JPanel();
 		group17.setBorder(BorderFactory.createLoweredBevelBorder());
-		JCheckBox check5 = new JCheckBox();
+		check5 = new JCheckBox();
+		check5.addActionListener(this);
 		JLabel label5 = new JLabel("Die 5");
-		JTextField field17 = new JTextField("     ");
+		field17 = new JTextField("     ");
 		field17.setEditable(false);
 		group17.add(check5);
 		group17.add(label5);
 		group17.add(field17);
+		
 		JPanel group18 = new JPanel();
 		group18.setBorder(BorderFactory.createLoweredBevelBorder());
-		JButton roll = new JButton("Roll Dice");
+		roll = new JButton("Roll Dice");
+		roll.addActionListener(this);
 		group18.add(roll);
 		diePanel.add(group13);
 		diePanel.add(group14);
@@ -278,14 +358,15 @@ public class MyFrame extends JFrame implements ActionListener {
 		rules.setBorder(BorderFactory.createLoweredBevelBorder());
 		JScrollPane scrollPane = new JScrollPane(rules);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		
 		JPanel outputPanel = new JPanel();
 		outputPanel.setBorder(BorderFactory.createLoweredBevelBorder());
 		outputPanel.setLayout(new GridLayout(3, 1));
-		JTextField rollsRemaining = new JTextField("Rolls left:     ");
+		rollsRemaining = new JTextField("Rolls left:     ");
 		rollsRemaining.setEditable(false);
-		JTextField rounds = new JTextField("Round:     ");
+		rounds = new JTextField("Round:  1");
 		rounds.setEditable(false);
-		JTextField totalScore = new JTextField("Score:     ");
+		totalScore = new JTextField("Score:  0");
 		totalScore.setEditable(false);
 		outputPanel.add(rollsRemaining);
 		outputPanel.add(rounds);
@@ -306,6 +387,360 @@ public class MyFrame extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == exit) {
+			System.exit(0);
+		} else if (e.getSource() == roll) {
+			isChecked();
+			if (game.reroll(diesToReroll)) {
+				appendDieValue();
+				rollsRemaining.setText("Rolls left:   " + rollsLeft--);
+				appendLowerScore();
+				appendUpperScore();
+			} else {
+				JOptionPane.showMessageDialog(new JFrame(), "Max number of rolls reached");
+			}
+		} else if (e.getSource() == button0) {
+			setAces();
+		} else if (e.getSource() == button1) {
+			setTwos();
+		} else if (e.getSource() == button2) {
+			setThrees();
+		} else if (e.getSource() == button3) {
+			setFours();
+		} else if (e.getSource() == button4) {
+			setFives();
+		} else if (e.getSource() == button5) {
+			setSixes();
+		} else if (e.getSource() == button6) {
+			setThreeOKind();
+		} else if (e.getSource() == button7) {
+			setFourOKind();
+		} else if (e.getSource() == button8) {
+			setFullHouse();
+		} else if (e.getSource() == button9) {
+			setSmallStraight();
+		} else if (e.getSource() == button10) {
+			setLargeStraight();
+		} else if (e.getSource() == button11) {
+			setYahtzee();
+		} else if (e.getSource() == button12) {
+			setChance();
+		}
+	}
+	
+	private void isChecked() {
+		if (check1.isSelected()) {
+			diesToReroll[0] = 0;
+		} else {
+			diesToReroll[0] = 1;
+		}
+		
+		if (check2.isSelected()) {
+			diesToReroll[1] = 0;
+		} else {
+			diesToReroll[1] = 1;
+		}
+		
+		if (check3.isSelected()) {
+			diesToReroll[2] = 0;
+		} else {
+			diesToReroll[2] = 1;
+		}
+		
+		if (check4.isSelected()) {
+			diesToReroll[3] = 0;
+		} else {
+			diesToReroll[3] = 1;
+		}
+		
+		if (check5.isSelected()) {
+			diesToReroll[4] = 0;
+		} else {
+			diesToReroll[4] = 1;
+		}
+	}
+	
+	private void appendDieValue() {
+		field13.setText(game.getDieValue(0));
+		field14.setText(game.getDieValue(1));
+		field15.setText(game.getDieValue(2));
+		field16.setText(game.getDieValue(3));
+		field17.setText(game.getDieValue(4));
+	}
+	
+	private void appendLowerScore() {
+		for (int i = 0; i < 6; i++) {
+			JPanel temp = (JPanel) lowerSection.getComponent(i);
+			JTextField fieldToAppend = (JTextField) temp.getComponent(1);
+			if (!game.isScoreFilled(i)) {
+				fieldToAppend.setText(Integer.toString(game.getDieSum(i + 1)));
+			} else {
+				fieldToAppend.setText(Integer.toString(game.getScore(i)));
+			}
+		}
+	}
+	
+	private void appendUpperScore() {
+		appendThreesOKind();
+		appendFoursOKind();
+		appendFullHouse();
+		appendSmallStraight();
+		appendLargeStraight();
+		appendYahtzee();
+		appendChance();
+	}
+	
+	private void appendThreesOKind() {
+		if (!game.isScoreFilled(6)) {
+			field6.setText(Integer.toString(game.getSameDie()));
+		} else {
+			field6.setText(Integer.toString(game.getScore(6)));
+		}
+	}
+	
+	private void appendFoursOKind() {
+		if (!game.isScoreFilled(7)) {
+			field7.setText(Integer.toString(game.getSameDie()));
+		} else {
+			field7.setText(Integer.toString(game.getScore(7)));
+		}
+	}
+	
+	private void appendFullHouse() {
+		if (!game.isScoreFilled(8)) {
+			field8.setText(Integer.toString(game.getFullHouse()));
+		} else {
+			field8.setText(Integer.toString(game.getScore(8)));
+		}
+	}
+	
+	private void appendSmallStraight() {
+		if (!game.isScoreFilled(9)) {
+			field9.setText(Integer.toString(game.getSmallStraight()));
+		} else {
+			field9.setText(Integer.toString(game.getScore(9)));
+		}
+	}
+	
+	private void appendLargeStraight() {
+		if (!game.isScoreFilled(10)) {
+			field10.setText(Integer.toString(game.getLargeStraight()));
+		} else {
+			field10.setText(Integer.toString(game.getScore(10)));
+		}
+	}
+	
+	private void appendYahtzee() {
+		field11.setText(Integer.toString(game.getYahtzee()));
+	}
+	
+	private void appendChance() {
+		if (!game.isScoreFilled(12)) {
+			field12.setText(Integer.toString(game.getRollSum()));
+		} else {
+			field12.setText(Integer.toString(game.getScore(12)));
+		}
+	}
+	
+	private void setAces() {
+		if (game.isScoreFilled(0)) {
+			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else {
+			game.storeScore(0, Integer.parseInt(field0.getText()));
+			field0.setFont(selected);
+			newRound();
+		}
+	}
+	
+	private void setTwos() {
+		if (game.isScoreFilled(1)) {
+			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else {
+			game.storeScore(1, Integer.parseInt(field1.getText()));
+			field1.setFont(selected);
+			newRound();
+		}
+	}
+	
+	private void setThrees() {
+		if (game.isScoreFilled(2)) {
+			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else {
+			game.storeScore(2, Integer.parseInt(field2.getText()));
+			field2.setFont(selected);
+			newRound();
+		}
+	}
+	
+	private void setFours() {
+		if (game.isScoreFilled(3)) {
+			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else {
+			game.storeScore(3, Integer.parseInt(field3.getText()));
+			field3.setFont(selected);
+			newRound();
+		}
+	}
+	
+	private void setFives() {
+		if (game.isScoreFilled(4)) {
+			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else {
+			game.storeScore(4, Integer.parseInt(field4.getText()));
+			field4.setFont(selected);
+			newRound();
+		}
+	}
+	
+	private void setSixes() {
+		if (game.isScoreFilled(5)) {
+			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else {
+			game.storeScore(5, Integer.parseInt(field5.getText()));
+			field5.setFont(selected);
+			newRound();
+		}
+	}
+	
+	private void setThreeOKind() {
+		if (game.isScoreFilled(6)) {
+			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else {
+			game.storeScore(6, Integer.parseInt(field6.getText()));
+			field6.setFont(selected);
+			newRound();
+		}
+	}
+	
+	private void setFourOKind() {
+		if (game.isScoreFilled(7)) {
+			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else {
+			game.storeScore(7, Integer.parseInt(field7.getText()));
+			field7.setFont(selected);
+			newRound();
+		}
+	}
+	
+	private void setFullHouse() {
+		if (game.isScoreFilled(8)) {
+			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else {
+			game.storeScore(8, Integer.parseInt(field8.getText()));
+			field8.setFont(selected);
+			newRound();
+		}
+	}
+	
+	private void setSmallStraight() {
+		if (game.isScoreFilled(9)) {
+			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else {
+			game.storeScore(9, Integer.parseInt(field9.getText()));
+			field9.setFont(selected);
+			newRound();
+		}
+	}
+	
+	private void setLargeStraight() {
+		if (game.isScoreFilled(10)) {
+			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else {
+			game.storeScore(10, Integer.parseInt(field10.getText()));
+			field10.setFont(selected);
+			newRound();
+		}
+	}
+	
+	private void setYahtzee() {
+		if (game.isScoreFilled(11)) {
+			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else {
+			game.storeScore(11, Integer.parseInt(field11.getText()));
+			field11.setFont(selected);
+			newRound();
+		}
+	}
+	
+	private void setChance() {
+		if (game.isScoreFilled(12)) {
+			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else {
+			game.storeScore(12, Integer.parseInt(field12.getText()));
+			field12.setFont(selected);
+			newRound();
+		}
+	}
+	
+	private void newRound() {
+		
+		if (game.hasBonus()) {
+			checkBonus.setSelected(true);
+			fieldBonus.setText("35");
+		}
+		if (noRounds == 13) {
+			newGame();
+			return;
+		}
+		
+		rounds.setText("Round:  " + (++noRounds));
+		totalScore.setText("Score:  " + game.totalScore());
+		rollsLeft = 2;
+		
+		field13.setText("");
+		field14.setText("");
+		field15.setText("");
+		field16.setText("");
+		field17.setText("");
+		
+		check1.setSelected(false);
+		check2.setSelected(false);
+		check3.setSelected(false);
+		check4.setSelected(false);
+		check5.setSelected(false);
+		
+		for (int i = 0; i < 13; i++) {
+			if (!game.isScoreFilled(i)) {
+				scoreTable[i].setText("");
+			} else {
+				scoreTable[i].setText(Integer.toString(game.getScore(i)));
+			}
+		}
+	}
+	
+	private void newGame() {
+		rounds.setText("Round:  " + noRounds);
+		totalScore.setText("Score:  " + game.totalScore());
+		
+		if (JOptionPane.showConfirmDialog(null, "Thank you for playing \n Your total score is: " + game.totalScore() +
+			"\n Would you like to start a new game?", "Game Over", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+		    // yes option
+			game = new YahtzeeMain();
+			
+			noRounds = 1;
+			rollsLeft = 2;
+			rollsRemaining.setText("Rolls left:     ");
+			rounds.setText("Round:  1");
+			totalScore.setText("Score:  0");
+			
+			field13.setText("");
+			field14.setText("");
+			field15.setText("");
+			field16.setText("");
+			field17.setText("");
+			
+			check1.setSelected(false);
+			check2.setSelected(false);
+			check3.setSelected(false);
+			check4.setSelected(false);
+			check5.setSelected(false);
+			
+			for (int i = 0; i < 13; i++) {
+				scoreTable[i].setText("");
+				scoreTable[i].setFont(unselected);
+			}
+			
+		} else {
+		    // no option
 			System.exit(0);
 		}
 	}

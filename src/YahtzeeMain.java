@@ -1,12 +1,14 @@
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Scanner;
 
 public class YahtzeeMain {
 
 	//------------------------------------- Instance variables
+	boolean debug = true;
 	
 	// Hashmap to store the dies in <String, Die> pairs (Ex: <"1", Die>, <"2", Die>)
-	private HashMap<String, Die> dies;
+	//private HashMap<Integer, Die> dies;
+	private Die[] dies;
 	
 	// ArrayList to store the count of the dies of value n (Ex: If the user roll 2 aces,
 	// 2 twos and 1 three, the count list will be [2, 2, 1, 0, 0, 0]
@@ -16,14 +18,10 @@ public class YahtzeeMain {
 	private int[] scoreTable = {-1, -1, -1, -1, -1, -1 
 			, -1, -1, -1, -1, -1, -1, -1};
 	
-	// Count for Yahtzee bonus
-	private int yahtzeeCount = 0;
-	
 	// Number of rerolls remaining
 	private int numRolls = 0;
 	
-	// Current number of rounds
-	private int numRounds = 0;
+	private int yahtzeeCount = 0;
 	
 	//------------------------------------- Methods
 	
@@ -32,10 +30,10 @@ public class YahtzeeMain {
 	 * ArrayList, and update the count
 	 */
 	public YahtzeeMain() {
-		dies = new HashMap<String, Die>();
+		dies = new Die[5];
 		count = new ArrayList<Integer>(6);
-		for (int i = 1; i <= 5; i++) {
-			dies.put(i + "", new Die());
+		for (int i = 0; i < 5; i++) {
+			dies[i] = new Die();
 		}
 		for (int i = 0; i < 6; i++) {
 			count.add(0);
@@ -61,28 +59,50 @@ public class YahtzeeMain {
 	 * @param dieNumbers the dies the players want to reroll, represented as
 	 * 	a string of integers seperated by spaces
 	 */
-	public boolean reroll(String dieNumbers) {
+	public boolean reroll(int[] diesToReroll) {
 		if (++numRolls < 4) {
-			String[] diesToReroll = dieNumbers.trim().split(" ");
-			for (String str : diesToReroll) {
-				dies.get(str).roll();
+			
+			if (debug) {
+				return debugRoll();
+			}
+			
+			for (int i = 0; i < 5; i++) {
+				if (diesToReroll[i] == 1) {
+					dies[i].roll();
+				}
 			}
 			updateCount();
 			return true;
 		} else {
-			System.out.println("Max no of rerolls reach");
 			return false;
 		}
 	}
 	
-	/**
-	 * @return The String representation of the current dies
-	 */
-	public String getDies() {
-		String ret = "";
-		for (String key : dies.keySet()) {
-			ret += "[Die " + key + ": " + dies.get(key).getValue() + "]  |  ";
+	private boolean debugRoll() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter test values as one string seperated by spaces: ");
+		String testInput = sc.nextLine();
+		
+		String[] testInputArr = testInput.trim().split(" "); // split the string by space
+		int[] testVals = new int[5]; // create an array to hold the numbers
+
+		for (int i = 0; i < 5; i++) {
+		    testVals[i] = Integer.parseInt(testInputArr[i]); // parse each token as an integer
 		}
+		
+		for (int i = 0; i < 5; i++) {
+			dies[i].setValue(testVals[i]);
+		}
+		updateCount();
+		return true;
+	}
+	
+	/**
+	 * @return The String representation of the specified die
+	 */
+	public String getDieValue(int index) {
+		String ret = "";
+		ret += dies[index].getValue();
 		return ret;
 	}
 	
@@ -93,7 +113,7 @@ public class YahtzeeMain {
 	 */
 	public int dieCount(int dieValue) {
 		int count = 0;
-		for (Die die : dies.values())
+		for (Die die : dies)
 			if (die.getValue() == dieValue)
 				count++;
 		return count;
@@ -126,6 +146,19 @@ public class YahtzeeMain {
 			ret += getDieSum(i + 1);
 		}
 		return ret;
+	}
+	
+	public boolean hasBonus() {
+		int bonusReq = 0;
+		for (int i = 0; i < 6; i++) {
+			if (scoreTable[i] != -1) {
+				bonusReq += scoreTable[i];
+			}
+		}
+		if (bonusReq >= 63) {
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -186,25 +219,43 @@ public class YahtzeeMain {
 	 * Yahtzee bonus, 0 otherwise
 	 */
 	public int getYahtzee() {
-		if (count.contains(5)) {
-			return 50;
+		if (scoreTable[11] != -1) {
+			if (count.contains(5)) scoreTable[11] += 100;
+			return scoreTable[11];
+		} else {
+			if (count.contains(5)) {
+				return 50;
+			}
+			return 0;
 		}
-		return 0;
 	}
 	
-	public boolean storeScore(int index, int score) {
-		if (scoreTable[index] != -1) {
+	public int getScore(int index) {
+		return scoreTable[index];
+	}
+	
+	public void storeScore(int index, int score) {
+		numRolls = 0;
+		scoreTable[index] = score;
+	}
+	
+	public boolean isScoreFilled(int index) {
+		if (scoreTable[index] == -1) {
 			return false;
 		}
-		scoreTable[index] = score;
 		return true;
 	}
 	
 	public int totalScore() {
 		int ret = 0;
 		for (int i : scoreTable) {
-			ret += i;
+			if (i == -1) {
+				ret += 0;
+			} else {
+				ret += i;
+			}
 		}
+		if (hasBonus()) return ret + 35;
 		return ret;
 	}
 }

@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Tester {
-
+/*
 	public static void main(String[] args) {
 		
 		Scanner sc = new Scanner(System.in);
@@ -49,5 +49,5 @@ public class Tester {
 		System.out.println("Chance: " + y.getRollSum());
 		System.out.println("Yahtzee: " + y.getYahtzee());
 	}
-	
+*/
 }
