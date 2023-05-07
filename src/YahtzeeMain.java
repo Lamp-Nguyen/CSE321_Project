@@ -51,7 +51,7 @@ public class YahtzeeMain {
 		if (++numRolls < 4) {			
 			for (int i = 0; i < 5; i++) {
 				if (diesToReroll[i] == 1) {
-					dies[i] = (int)(Math.random() * 6 + 1);;
+					dies[i] = (int)(Math.random() * 6 + 1);
 				}
 			}
 			updateCount();
