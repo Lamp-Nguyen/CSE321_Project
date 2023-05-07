@@ -609,6 +609,8 @@ public class MyFrame extends JFrame implements ActionListener {
 	private void setAces() {
 		if (game.isScoreFilled(0)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else if (field0.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(new JFrame(), "Please roll the dies before selecting!");
 		} else {
 			game.storeScore(0, Integer.parseInt(field0.getText()));
 			field0.setFont(selected);
@@ -623,6 +625,8 @@ public class MyFrame extends JFrame implements ActionListener {
 	private void setTwos() {
 		if (game.isScoreFilled(1)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else if (field1.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(new JFrame(), "Please roll the dies before selecting!");
 		} else {
 			game.storeScore(1, Integer.parseInt(field1.getText()));
 			field1.setFont(selected);
@@ -637,6 +641,8 @@ public class MyFrame extends JFrame implements ActionListener {
 	private void setThrees() {
 		if (game.isScoreFilled(2)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else if (field2.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(new JFrame(), "Please roll the dies before selecting!");
 		} else {
 			game.storeScore(2, Integer.parseInt(field2.getText()));
 			field2.setFont(selected);
@@ -651,6 +657,8 @@ public class MyFrame extends JFrame implements ActionListener {
 	private void setFours() {
 		if (game.isScoreFilled(3)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else if (field3.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(new JFrame(), "Please roll the dies before selecting!");
 		} else {
 			game.storeScore(3, Integer.parseInt(field3.getText()));
 			field3.setFont(selected);
@@ -664,8 +672,11 @@ public class MyFrame extends JFrame implements ActionListener {
 	 */
 	private void setFives() {
 		if (game.isScoreFilled(4)) {
-			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
-		} else {
+			JOptionPane.showMessageDialog(new JFrame(), "Score already filled!");
+		} else if (field4.getText().equals("")) {
+			JOptionPane.showMessageDialog(new JFrame(), "Please roll the dies before selecting!");
+		}
+		else {
 			game.storeScore(4, Integer.parseInt(field4.getText()));
 			field4.setFont(selected);
 			newRound();
@@ -679,6 +690,8 @@ public class MyFrame extends JFrame implements ActionListener {
 	private void setSixes() {
 		if (game.isScoreFilled(5)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else if (field5.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(new JFrame(), "Please roll the dies before selecting!");
 		} else {
 			game.storeScore(5, Integer.parseInt(field5.getText()));
 			field5.setFont(selected);
@@ -693,6 +706,8 @@ public class MyFrame extends JFrame implements ActionListener {
 	private void setThreeOKind() {
 		if (game.isScoreFilled(6)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else if (field6.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(new JFrame(), "Please roll the dies before selecting!");
 		} else {
 			game.storeScore(6, Integer.parseInt(field6.getText()));
 			field6.setFont(selected);
@@ -707,6 +722,8 @@ public class MyFrame extends JFrame implements ActionListener {
 	private void setFourOKind() {
 		if (game.isScoreFilled(7)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else if (field7.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(new JFrame(), "Please roll the dies before selecting!");
 		} else {
 			game.storeScore(7, Integer.parseInt(field7.getText()));
 			field7.setFont(selected);
@@ -721,6 +738,8 @@ public class MyFrame extends JFrame implements ActionListener {
 	private void setFullHouse() {
 		if (game.isScoreFilled(8)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else if (field8.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(new JFrame(), "Please roll the dies before selecting!");
 		} else {
 			game.storeScore(8, Integer.parseInt(field8.getText()));
 			field8.setFont(selected);
@@ -735,6 +754,8 @@ public class MyFrame extends JFrame implements ActionListener {
 	private void setSmallStraight() {
 		if (game.isScoreFilled(9)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else if (field9.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(new JFrame(), "Please roll the dies before selecting!");
 		} else {
 			game.storeScore(9, Integer.parseInt(field9.getText()));
 			field9.setFont(selected);
@@ -749,6 +770,8 @@ public class MyFrame extends JFrame implements ActionListener {
 	private void setLargeStraight() {
 		if (game.isScoreFilled(10)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else if (field10.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(new JFrame(), "Please roll the dies before selecting!");
 		} else {
 			game.storeScore(10, Integer.parseInt(field10.getText()));
 			field10.setFont(selected);
@@ -763,6 +786,8 @@ public class MyFrame extends JFrame implements ActionListener {
 	private void setYahtzee() {
 		if (game.isScoreFilled(11)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else if (field11.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(new JFrame(), "Please roll the dies before selecting!");
 		} else {
 			game.storeScore(11, Integer.parseInt(field11.getText()));
 			field11.setFont(selected);
@@ -777,6 +802,8 @@ public class MyFrame extends JFrame implements ActionListener {
 	private void setChance() {
 		if (game.isScoreFilled(12)) {
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
+		} else if (field12.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(new JFrame(), "Please roll the dies before selecting!");
 		} else {
 			game.storeScore(12, Integer.parseInt(field12.getText()));
 			field12.setFont(selected);

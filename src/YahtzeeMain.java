@@ -66,8 +66,13 @@ public class YahtzeeMain {
 	 */
 	public String getDieValue(int index) {
 		String ret = "";
-		ret += dies[index];
-		return ret;
+		try {
+			ret += dies[index];
+			return ret;	
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "-1";
+		}
 	}
 	
 	/**
@@ -204,7 +209,13 @@ public class YahtzeeMain {
 	 * @return the score at the index
 	 */
 	public int getScore(int index) {
-		return scoreTable[index];
+		int ret = 0;
+		try {
+			ret = scoreTable[index];
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return ret;
 	}
 	
 	/**
@@ -214,7 +225,11 @@ public class YahtzeeMain {
 	 */
 	public void storeScore(int index, int score) {
 		numRolls = 0;
-		scoreTable[index] = score;
+		try {
+			scoreTable[index] = score;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -224,10 +239,15 @@ public class YahtzeeMain {
 	 * @return true if the score is already filled, false otherwise
 	 */
 	public boolean isScoreFilled(int index) {
-		if (scoreTable[index] == -1) {
+		try {
+			if (scoreTable[index] == -1) {
+				return false;
+			}
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
-		return true;
 	}
 	
 	/**
