@@ -8,7 +8,7 @@ public class YahtzeeMain {
 	boolean debug = false;
 	
 	// Array of Die objects
-	private Die[] dies;
+	private int[] dies;
 	
 	// ArrayList to store the count of the dies of value n (Ex: If the user roll 2 aces,
 	// 2 twos and 1 three, the count list will be [2, 2, 1, 0, 0, 0]
@@ -23,9 +23,6 @@ public class YahtzeeMain {
 	// Number of rerolls remaining
 	private int numRolls = 0;
 	
-	// Number of yahtzees
-	private int yahtzeeCount = 0;
-	
 	//------------------------------------- Methods
 	
 	/**
@@ -33,10 +30,10 @@ public class YahtzeeMain {
 	 * ArrayList, and update the count
 	 */
 	public YahtzeeMain() {
-		dies = new Die[5];
+		dies = new int[5];
 		count = new ArrayList<Integer>(6);
 		for (int i = 0; i < 5; i++) {
-			dies[i] = new Die();
+			dies[i] = (int)(Math.random() * 6 + 1);
 		}
 		for (int i = 0; i < 6; i++) {
 			count.add(0);
@@ -51,16 +48,10 @@ public class YahtzeeMain {
 	 * @return true if the can be re-rolled (i.e  numRolls <= 3), false otherwise
 	 */
 	public boolean reroll(int[] diesToReroll) {
-		if (++numRolls < 4) {
-			
-			// If in debug mode
-			if (debug) {
-				return debugRoll();
-			}
-			
+		if (++numRolls < 4) {			
 			for (int i = 0; i < 5; i++) {
 				if (diesToReroll[i] == 1) {
-					dies[i].roll();
+					dies[i] = (int)(Math.random() * 6 + 1);;
 				}
 			}
 			updateCount();
@@ -71,35 +62,11 @@ public class YahtzeeMain {
 	}
 	
 	/**
-	 * Use when debug is set to true, allow the tester to specify the specific die values
-	 * they want to test
-	 * @return true
-	 */
-	private boolean debugRoll() {
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Enter test values as one string seperated by spaces: ");
-		String testInput = sc.nextLine();
-		
-		String[] testInputArr = testInput.trim().split(" "); // split the string by space
-		int[] testVals = new int[5]; // create an array to hold the numbers
-
-		for (int i = 0; i < 5; i++) {
-		    testVals[i] = Integer.parseInt(testInputArr[i]); // parse each token as an integer
-		}
-		
-		for (int i = 0; i < 5; i++) {
-			dies[i].setValue(testVals[i]);
-		}
-		updateCount();
-		return true;
-	}
-	
-	/**
 	 * @return The String representation of the specified die
 	 */
 	public String getDieValue(int index) {
 		String ret = "";
-		ret += dies[index].getValue();
+		ret += dies[index];
 		return ret;
 	}
 	
@@ -110,8 +77,8 @@ public class YahtzeeMain {
 	 */
 	public int dieCount(int dieValue) {
 		int count = 0;
-		for (Die die : dies)
-			if (die.getValue() == dieValue)
+		for (int die : dies)
+			if (die == dieValue)
 				count++;
 		return count;
 	}
