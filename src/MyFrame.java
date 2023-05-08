@@ -37,7 +37,6 @@ public class MyFrame extends JFrame implements ActionListener {
 	private JCheckBox check1, check2, check3, check4, check5, checkBonus;
 	
 	private JPanel lowerSection, upperSection;
-	private JMenuItem exit;
 	
 	// Array of textfields to simulate the score table
 	// [0 : aces, 1: twos, ..., 6: 3 of a kind, 7: 4 of a kind, ...]
@@ -67,19 +66,6 @@ public class MyFrame extends JFrame implements ActionListener {
 		this.setResizable(false);
 		this.setSize(550, 500);
 		this.getContentPane().setBackground(Color.WHITE);
-		
-		// Initializing menu bar
-		JMenuBar menuBar = new JMenuBar();
-		JMenu game = new JMenu("Game");
-		JMenu tutorial = new JMenu("Tutorial");
-		JMenu about = new JMenu("About");
-		exit = new JMenuItem("Exit");
-		exit.addActionListener(this);
-		game.add(exit);
-		menuBar.add(game);
-		menuBar.add(tutorial);
-		menuBar.add(about);
-		this.setJMenuBar(menuBar);
 		
 		// Initializing top panel: top-half part of frame
 		JPanel topPanel = new JPanel();
@@ -411,9 +397,7 @@ public class MyFrame extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == exit) {
-			System.exit(0);
-		} else if (e.getSource() == roll) {
+		if (e.getSource() == roll) {
 			isChecked();
 			if (game.reroll(diesToReroll)) {
 				appendDieValue();
