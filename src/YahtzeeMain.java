@@ -255,7 +255,7 @@ public class YahtzeeMain {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Check if the score category at the specified index has already
 	 * been filled out
@@ -287,11 +287,35 @@ public class YahtzeeMain {
 		return ret;
 	}
 	
-	/**
-	 * Set specific die values
-	 * ONLY USE FOR TESTING
-	 * @param newDies array of new die values
-	 */
+	//------------------------------------- Getters - Setters
+	public ArrayList<Integer> getCount() {
+		return count;
+	}
+
+	public void setCount(ArrayList<Integer> count) {
+		this.count = count;
+	}
+
+	public int[] getScoreTable() {
+		return scoreTable;
+	}
+
+	public void setScoreTable(int[] scoreTable) {
+		this.scoreTable = scoreTable;
+	}
+
+	public int getNumRolls() {
+		return numRolls;
+	}
+
+	public void setNumRolls(int numRolls) {
+		this.numRolls = numRolls;
+	}
+
+	public int[] getDies() {
+		return dies;
+	}
+	
 	public void setDies(int[] newDies) {
 		this.dies = newDies;
 	}
