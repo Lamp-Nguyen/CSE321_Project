@@ -240,8 +240,13 @@ public class MyFrame extends JFrame implements ActionListener {
 		upperSection.add(group12);
 		upperSection.add(groupChance);
 		
+		// Add the fields matching the score table into the array, which will be use for
+		// formatting a new round
 		scoreTable = new JTextField[] {field0, field1, field2, field3, field4, field5, field6, field7,
 				field8, field9, field10, field11, field12};
+		
+		// Create two font styles, one bolded and one plain. The text matching the score filled in the
+		// table will be bolded.
 		selected = new Font(field0.getFont().getName(), Font.BOLD , field0.getFont().getSize());
 		unselected = new Font(field0.getFont().getName(), Font.PLAIN , field0.getFont().getSize());
 		
@@ -452,35 +457,35 @@ public class MyFrame extends JFrame implements ActionListener {
 	 * array accordingly
 	 */
 	public void isChecked() {
-		if (check1.isSelected()) {
+		// Checkbox for Die 1
+		if (check1.isSelected()) 
 			diesToReroll[0] = 0;
-		} else {
+		else 
 			diesToReroll[0] = 1;
-		}
 		
-		if (check2.isSelected()) {
+		// Checkbox for Die 2
+		if (check2.isSelected()) 
 			diesToReroll[1] = 0;
-		} else {
+		else 
 			diesToReroll[1] = 1;
-		}
-		
-		if (check3.isSelected()) {
+
+		// Checkbox for Die 3
+		if (check3.isSelected()) 
 			diesToReroll[2] = 0;
-		} else {
+		else 
 			diesToReroll[2] = 1;
-		}
 		
-		if (check4.isSelected()) {
+		// Checkbox for Die 4
+		if (check4.isSelected())
 			diesToReroll[3] = 0;
-		} else {
+		else
 			diesToReroll[3] = 1;
-		}
 		
-		if (check5.isSelected()) {
+		// Checkbox for Die 5
+		if (check5.isSelected()) 
 			diesToReroll[4] = 0;
-		} else {
+		else 
 			diesToReroll[4] = 1;
-		}
 	}
 	
 	/**
@@ -495,17 +500,19 @@ public class MyFrame extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * Display the scoring options for the upper section
+	 * Display the scoring options for the upper section, if the section is already
+	 * filled, retrieve the stored score from the score array in the game
 	 */
 	public void appendUpperScore() {
 		for (int i = 0; i < 6; i++) {
+			
 			JPanel temp = (JPanel) lowerSection.getComponent(i);
 			JTextField fieldToAppend = (JTextField) temp.getComponent(1);
-			if (!game.isScoreFilled(i)) {
+
+			if (!game.isScoreFilled(i))
 				fieldToAppend.setText(Integer.toString(game.getDieSum(i + 1)));
-			} else {
+			else
 				fieldToAppend.setText(Integer.toString(game.getScore(i)));
-			}
 		}
 	}
 	
@@ -527,11 +534,10 @@ public class MyFrame extends JFrame implements ActionListener {
 	 * filled, retrieve the stored score from the score array in the game
 	 */
 	public void appendThreesOKind() {
-		if (!game.isScoreFilled(6)) {
+		if (!game.isScoreFilled(6))
 			field6.setText(Integer.toString(game.getSameDie()));
-		} else {
+		else
 			field6.setText(Integer.toString(game.getScore(6)));
-		}
 	}
 	
 	/**
@@ -539,11 +545,10 @@ public class MyFrame extends JFrame implements ActionListener {
 	 * filled, retrieve the stored score from the score array in the game
 	 */
 	public void appendFoursOKind() {
-		if (!game.isScoreFilled(7)) {
+		if (!game.isScoreFilled(7))
 			field7.setText(Integer.toString(game.getSameDie()));
-		} else {
+		else
 			field7.setText(Integer.toString(game.getScore(7)));
-		}
 	}
 	
 	/**
@@ -551,11 +556,10 @@ public class MyFrame extends JFrame implements ActionListener {
 	 * filled, retrieve the stored score from the score array in the game
 	 */
 	public void appendFullHouse() {
-		if (!game.isScoreFilled(8)) {
+		if (!game.isScoreFilled(8))
 			field8.setText(Integer.toString(game.getFullHouse()));
-		} else {
+		else
 			field8.setText(Integer.toString(game.getScore(8)));
-		}
 	}
 	
 	/**
@@ -563,11 +567,10 @@ public class MyFrame extends JFrame implements ActionListener {
 	 * filled, retrieve the stored score from the score array in the game
 	 */
 	public void appendSmallStraight() {
-		if (!game.isScoreFilled(9)) {
+		if (!game.isScoreFilled(9))
 			field9.setText(Integer.toString(game.getSmallStraight()));
-		} else {
+		else
 			field9.setText(Integer.toString(game.getScore(9)));
-		}
 	}
 	
 	/**
@@ -575,11 +578,10 @@ public class MyFrame extends JFrame implements ActionListener {
 	 * filled, retrieve the stored score from the score array in the game
 	 */
 	public void appendLargeStraight() {
-		if (!game.isScoreFilled(10)) {
+		if (!game.isScoreFilled(10))
 			field10.setText(Integer.toString(game.getLargeStraight()));
-		} else {
+		else
 			field10.setText(Integer.toString(game.getScore(10)));
-		}
 	}
 	
 	/**
@@ -595,11 +597,10 @@ public class MyFrame extends JFrame implements ActionListener {
 	 * filled, retrieve the stored score from the score array in the game
 	 */
 	public void appendChance() {
-		if (!game.isScoreFilled(12)) {
+		if (!game.isScoreFilled(12))
 			field12.setText(Integer.toString(game.getRollSum()));
-		} else {
+		else
 			field12.setText(Integer.toString(game.getScore(12)));
-		}
 	}
 	
 	/**
@@ -607,11 +608,11 @@ public class MyFrame extends JFrame implements ActionListener {
 	 * filled, inform the user.
 	 */
 	public void setAces() {
-		if (game.isScoreFilled(0)) {
+		if (game.isScoreFilled(0)) { // If score is filled
 			JOptionPane.showMessageDialog(new JFrame(), "Score already filled");
-		} else if (field0.getText().trim().equals("")) {
+		} else if (field0.getText().trim().equals("")) { // If the user tries selecting before rolling
 			JOptionPane.showMessageDialog(new JFrame(), "Please roll the dies before selecting!");
-		} else {
+		} else { // If score is not filled
 			game.storeScore(0, Integer.parseInt(field0.getText()));
 			field0.setFont(selected);
 			newRound();
@@ -817,15 +818,19 @@ public class MyFrame extends JFrame implements ActionListener {
 	 */
 	public void newRound() {
 		
+		// Check the bonus checkbox and fill in the value if the user qualifies for a bonus
 		if (game.hasBonus()) {
 			checkBonus.setSelected(true);
 			fieldBonus.setText("35");
 		}
+		
+		// If this is the 13th round, call newGame() instead
 		if (noRounds == 13) {
 			newGame();
 			return;
 		}
 		
+		// Reseting variables and components
 		rounds.setText("Round:  " + (++noRounds));
 		totalScore.setText("Score:  " + game.totalScore());
 		rollsLeft = 2;
@@ -856,6 +861,8 @@ public class MyFrame extends JFrame implements ActionListener {
 	 * of the game. If selected NO, terminate the program
 	 */
 	public void newGame() {
+		
+		// Update the output to match the 13th round
 		rounds.setText("Round:  " + noRounds);
 		totalScore.setText("Score:  " + game.totalScore());
 		

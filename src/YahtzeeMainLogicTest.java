@@ -2,12 +2,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class YahtzeeMainTest {
-
-	@Test
-	void testYahtzeeMain() {
-		fail("Not yet implemented");
-	}
+class YahtzeeMainLogicTest {
+	
+	private YahtzeeMain test;
 
 	@Test
 	void testReroll() {

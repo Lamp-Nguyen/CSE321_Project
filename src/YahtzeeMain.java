@@ -4,10 +4,8 @@ import java.util.Scanner;
 public class YahtzeeMain {
 
 	//------------------------------------- Instance variables
-	// Set to true if you are debugging with specific Die values
-	boolean debug = false;
 	
-	// Array of Die objects
+	// Array of integers with values from 1 to 6, each index representing one die
 	private int[] dies;
 	
 	// ArrayList to store the count of the dies of value n (Ex: If the user roll 2 aces,
@@ -48,6 +46,7 @@ public class YahtzeeMain {
 	 * @return true if the can be re-rolled (i.e  numRolls <= 3), false otherwise
 	 */
 	public boolean reroll(int[] diesToReroll) {
+		// If the player has rolled less than 3 times
 		if (++numRolls < 4) {			
 			for (int i = 0; i < 5; i++) {
 				if (diesToReroll[i] == 1) {
@@ -56,13 +55,15 @@ public class YahtzeeMain {
 			}
 			updateCount();
 			return true;
+		// If the player has rolled more than 3 times
 		} else {
 			return false;
 		}
 	}
 	
 	/**
-	 * @return The String representation of the specified die
+	 * @return The String representation of the specified die,
+	 * return -1 if the index is invalid
 	 */
 	public String getDieValue(int index) {
 		String ret = "";
@@ -192,13 +193,17 @@ public class YahtzeeMain {
 	 * Yahtzee bonus, 0 otherwise
 	 */
 	public int getYahtzee() {
+		// If the player has scored a Yahtzee
 		if (scoreTable[11] != -1) {
-			if (count.contains(5)) scoreTable[11] += 100;
+			// If the current roll is another Yahtzee, add 100 bonus points
+			if (count.contains(5))
+				scoreTable[11] += 100;
 			return scoreTable[11];
+		// If the player hasn't scored a Yahtzee
 		} else {
-			if (count.contains(5)) {
+			// If the current roll is another Yahtzee
+			if (count.contains(5)) 
 				return 50;
-			}
 			return 0;
 		}
 	}
@@ -240,9 +245,8 @@ public class YahtzeeMain {
 	 */
 	public boolean isScoreFilled(int index) {
 		try {
-			if (scoreTable[index] == -1) {
+			if (scoreTable[index] == -1)
 				return false;
-			}
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -257,13 +261,21 @@ public class YahtzeeMain {
 	public int totalScore() {
 		int ret = 0;
 		for (int i : scoreTable) {
-			if (i == -1) {
+			if (i == -1)
 				ret += 0;
-			} else {
+			else 
 				ret += i;
-			}
 		}
 		if (hasBonus()) return ret + 35;
 		return ret;
+	}
+	
+	/**
+	 * Set specific die values
+	 * ONLY USE FOR TESTING
+	 * @param newDies array of new die values
+	 */
+	public void setDies(int[] newDies) {
+		this.dies = newDies;
 	}
 }
