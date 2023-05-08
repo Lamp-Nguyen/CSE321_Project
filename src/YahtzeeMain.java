@@ -5,7 +5,7 @@ public class YahtzeeMain {
 
 	//------------------------------------- Instance variables
 	// Set to true if you want to debug the GUI
-	private boolean debug = false;
+	private boolean debug = true;
 	
 	// Array of integers with values from 1 to 6, each index representing one die
 	private int[] dies;
@@ -280,9 +280,7 @@ public class YahtzeeMain {
 	public int totalScore() {
 		int ret = 0;
 		for (int i : scoreTable) {
-			if (i == -1)
-				ret += 0;
-			else 
+			if (i != -1)
 				ret += i;
 		}
 		if (hasBonus()) return ret + 35;
