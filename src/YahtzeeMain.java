@@ -4,6 +4,8 @@ import java.util.Scanner;
 public class YahtzeeMain {
 
 	//------------------------------------- Instance variables
+	// Set to true if you want to debug the GUI
+	private boolean debug = false;
 	
 	// Array of integers with values from 1 to 6, each index representing one die
 	private int[] dies;
@@ -46,6 +48,11 @@ public class YahtzeeMain {
 	 * @return true if the can be re-rolled (i.e  numRolls <= 3), false otherwise
 	 */
 	public boolean reroll(int[] diesToReroll) {
+		// If in debug mode
+		if (debug) {
+			return debugRoll();
+		}
+		
 		// If the player has rolled less than 3 times
 		if (++numRolls < 4) {			
 			for (int i = 0; i < 5; i++) {
@@ -59,6 +66,18 @@ public class YahtzeeMain {
 		} else {
 			return false;
 		}
+	}
+	
+	private boolean debugRoll() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter the die values you want to test as a string separted by spaces: ");
+		String input = sc.nextLine();
+		String[] arr = input.trim().split(" ");
+		for (int i = 0; i < 5; i++) {
+			dies[i] = Integer.parseInt(arr[i]);
+		}
+		updateCount();
+		return true;
 	}
 	
 	/**
