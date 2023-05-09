@@ -88,11 +88,10 @@ public class YahtzeeMain {
 		String ret = "";
 		try {
 			ret += dies[index];
-			return ret;	
 		} catch (Exception e) {
-			// e.printStackTrace();
-			return "-1";
+			e.printStackTrace();
 		}
+		return ret;
 	}
 	
 	/**
