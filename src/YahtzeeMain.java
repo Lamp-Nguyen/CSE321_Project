@@ -5,7 +5,7 @@ public class YahtzeeMain {
 
 	//------------------------------------- Instance variables
 	// Set to true if you want to debug the GUI
-	private boolean debug = true;
+	private boolean debug = false;
 	
 	// Array of integers with values from 1 to 6, each index representing one die
 	private int[] dies;
@@ -88,11 +88,10 @@ public class YahtzeeMain {
 		String ret = "";
 		try {
 			ret += dies[index];
-			return ret;	
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "-1";
 		}
+		return ret;
 	}
 	
 	/**
