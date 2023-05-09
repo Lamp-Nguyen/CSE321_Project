@@ -110,6 +110,9 @@ public class YahtzeeMainTest extends TestCase {
 		count = new ArrayList<>(Arrays.asList(0, 3, 0, 0, 0, 0));
 		yahtzee.setCount(count);
 		assertEquals(yahtzee.getSameDie(), 6);
+		count = new ArrayList<>(Arrays.asList(0, 4, 0, 0, 0, 0));
+		yahtzee.setCount(count);
+		assertEquals(yahtzee.getSameDie(), 8);
 		count = new ArrayList<>(Arrays.asList(0, 3, 0, 4, 0, 0));
 		yahtzee.setCount(count);
 		assertEquals(yahtzee.getSameDie(), 22);
@@ -120,6 +123,9 @@ public class YahtzeeMainTest extends TestCase {
 	 */
 	public void testGetFullHouse() {
 		ArrayList<Integer> count = new ArrayList<>(Arrays.asList(0, 3, 0, 0, 0, 0));
+		yahtzee.setCount(count);
+		assertEquals(yahtzee.getFullHouse(), 0);
+		count = new ArrayList<>(Arrays.asList(0, 2, 0, 0, 0, 0));
 		yahtzee.setCount(count);
 		assertEquals(yahtzee.getFullHouse(), 0);
 		count = new ArrayList<>(Arrays.asList(0, 3, 0, 2, 0, 0));
