@@ -819,11 +819,11 @@ public class MyFrame extends JFrame implements ActionListener {
 		totalScore.setText("Score:  " + game.totalScore());
 		rollsLeft = 2;
 		
-		field13.setText("");
-		field14.setText("");
-		field15.setText("");
-		field16.setText("");
-		field17.setText("");
+		field13.setText("     ");
+		field14.setText("     ");
+		field15.setText("     ");
+		field16.setText("     ");
+		field17.setText("     ");
 		
 		check1.setSelected(false);
 		check2.setSelected(false);
@@ -833,7 +833,7 @@ public class MyFrame extends JFrame implements ActionListener {
 		
 		for (int i = 0; i < 13; i++) {
 			if (!game.isScoreFilled(i)) {
-				scoreTable[i].setText("");
+				scoreTable[i].setText("     ");
 			} else {
 				scoreTable[i].setText(Integer.toString(game.getScore(i)));
 			}
@@ -861,11 +861,11 @@ public class MyFrame extends JFrame implements ActionListener {
 			rounds.setText("Round:  1");
 			totalScore.setText("Score:  0");
 			
-			field13.setText("");
-			field14.setText("");
-			field15.setText("");
-			field16.setText("");
-			field17.setText("");
+			field13.setText("     ");
+			field14.setText("     ");
+			field15.setText("     ");
+			field16.setText("     ");
+			field17.setText("     ");
 			
 			check1.setSelected(false);
 			check2.setSelected(false);
@@ -874,7 +874,7 @@ public class MyFrame extends JFrame implements ActionListener {
 			check5.setSelected(false);
 			
 			for (int i = 0; i < 13; i++) {
-				scoreTable[i].setText("");
+				scoreTable[i].setText("     ");
 				scoreTable[i].setFont(unselected);
 			}
 			
